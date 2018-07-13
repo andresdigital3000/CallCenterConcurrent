@@ -2,20 +2,18 @@ package com.callcenter.domain;
 
 import com.callcenter.EmpleadoEstado;
 import com.callcenter.Llamada;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * Models the Empleado Domain Objects
  */
 public class Empleado implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(Empleado.class);
+    private static final Logger logger = Logger.getLogger(Empleado.class.getSimpleName());
 
     private String nombre;
     private EmpleadoEstado employeeState;
@@ -78,21 +76,17 @@ public class Empleado implements Runnable {
      */
     @Override
     public void run() {
-        logger.info("Employee " + Thread.currentThread().getName() + " starts to work");
         while (true) {
             if (!this.incomingCalls.isEmpty()) {
                 Llamada call = this.incomingCalls.poll();
                 this.setEmployeeState(EmpleadoEstado.BUSY);
-                logger.info("Employee " + Thread.currentThread().getName() + " starts working on a call of " + call.getDuracionEnSegundos() + " seconds");
                 try {
                     TimeUnit.SECONDS.sleep(call.getDuracionEnSegundos());
                 } catch (InterruptedException e) {
-                    logger.error("Employee " + Thread.currentThread().getName() + " was interrupted and could not finish call of " + call.getDuracionEnSegundos() + " seconds");
                 } finally {
                     this.setEmployeeState(EmpleadoEstado.AVAILABLE);
                 }
                 this.attendedCalls.add(call);
-                logger.info("Employee " + Thread.currentThread().getName() + " finishes a call of " + call.getDuracionEnSegundos() + " seconds");
             }
         }
     }

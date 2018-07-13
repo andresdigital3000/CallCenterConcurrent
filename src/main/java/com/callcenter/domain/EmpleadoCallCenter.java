@@ -2,15 +2,14 @@ package com.callcenter.domain;
 
 import com.callcenter.EmpleadoEstado;
 import com.callcenter.Llamada;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.logging.Logger;
 
 
 public class EmpleadoCallCenter {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmpleadoCallCenter.class);
+    private static final Logger logger = Logger.getLogger(EmpleadoCallCenter.class.getSimpleName());
 
     private String nombre;
     private EmpleadoEstado estado;
