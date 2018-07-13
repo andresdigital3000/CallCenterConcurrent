@@ -57,7 +57,7 @@ public class AtencionLlamadaAction extends RecursiveAction {
             }
         }
         EmpleadoCallCenter empleadoAsignado = employee.get();
-        empleadoAsignado.attend(llamada);
+        empleadoAsignado.atenderLlamada(llamada);
         return empleadoAsignado;
     }
 }

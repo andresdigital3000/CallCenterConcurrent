@@ -27,9 +27,7 @@ public class EmpleadoCallCenter {
         return estado;
     }
 
-    //private synchronized void setEmployeeState(EmpleadoEstado estado) {
     public  void setEstado(EmpleadoEstado estado) {
-        logger.info("Employee " + Thread.currentThread().getName() + " changes its state to " + estado);
         this.estado = estado;
     }
 
@@ -41,18 +39,6 @@ public class EmpleadoCallCenter {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    
-    /**
-     * Queues a call to be attended by the employee
-     *
-     * @param call call to be attended
-     */
-    public synchronized void attend(Llamada call) {
-        logger.info("Employee " + Thread.currentThread().getName() + " queues a call of " + call.getDuracionEnSegundos() + " seconds");
-        this.incomingCalls.add(call);
-    }
-
     
     /**
      * Asumiendo que cada asesor pudiera tener una lista de llamadas asignada.
