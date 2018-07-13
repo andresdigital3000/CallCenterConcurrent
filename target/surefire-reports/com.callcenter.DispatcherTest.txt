@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.callcenter.DispatcherTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.122 sec <<< FAILURE!
-testGetActive(com.callcenter.DispatcherTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.156 sec <<< FAILURE!
+testGetActive(com.callcenter.DispatcherTest)  Time elapsed: 0.005 sec  <<< FAILURE!
 java.lang.AssertionError: The test case is a prototype.
 	at org.junit.Assert.fail(Assert.java:88)
 	at com.callcenter.DispatcherTest.testGetActive(DispatcherTest.java:59)

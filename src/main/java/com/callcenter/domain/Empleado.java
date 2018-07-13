@@ -2,16 +2,10 @@ package com.callcenter.domain;
 
 import com.callcenter.EmpleadoEstado;
 import com.callcenter.Llamada;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-/**
- * Models the Empleado Domain Objects
- */
-public class Empleado implements Runnable {
+public class Empleado{
 
     private static final Logger logger = Logger.getLogger(Empleado.class.getSimpleName());
 
@@ -20,12 +14,10 @@ public class Empleado implements Runnable {
 
     private ConcurrentLinkedDeque<Llamada> incomingCalls;
 
-    private ConcurrentLinkedDeque<Llamada> attendedCalls;
 
     public Empleado(String nombre) {
         this.employeeState = EmpleadoEstado.AVAILABLE;
         this.incomingCalls = new ConcurrentLinkedDeque<>();
-        this.attendedCalls = new ConcurrentLinkedDeque<>();
         this.nombre = nombre;
     }
 
@@ -35,24 +27,9 @@ public class Empleado implements Runnable {
 
     //private synchronized void setEmployeeState(EmpleadoEstado employeeState) {
     public  void setEmployeeState(EmpleadoEstado employeeState) {
-        logger.info("Employee " + Thread.currentThread().getName() + " changes its state to " + employeeState);
         this.employeeState = employeeState;
     }
 
-
-    public synchronized List<Llamada> getAttendedCalls() {
-        return new ArrayList<>(attendedCalls);
-    }
-
-    /**
-     * Queues a call to be attended by the employee
-     *
-     * @param call call to be attended
-     */
-    public synchronized void attend(Llamada call) {
-        logger.info("Employee " + Thread.currentThread().getName() + " queues a call of " + call.getDuracionEnSegundos() + " seconds");
-        this.incomingCalls.add(call);
-    }
 
     public String getNombre() {
         return nombre;
@@ -68,27 +45,5 @@ public class Empleado implements Runnable {
     }
 
     
-    /**
-     * This is the method that runs on the thread.
-     * If the incoming calls queue is not empty, then it changes its state from AVAILABLE to BUSY, takes the call
-     * and when it finishes it changes its state from BUSY back to AVAILABLE. This allows a Thread Pool to decide
-     * to dispatch another call to another employee.
-     */
-    @Override
-    public void run() {
-        while (true) {
-            if (!this.incomingCalls.isEmpty()) {
-                Llamada call = this.incomingCalls.poll();
-                this.setEmployeeState(EmpleadoEstado.BUSY);
-                try {
-                    TimeUnit.SECONDS.sleep(call.getDuracionEnSegundos());
-                } catch (InterruptedException e) {
-                } finally {
-                    this.setEmployeeState(EmpleadoEstado.AVAILABLE);
-                }
-                this.attendedCalls.add(call);
-            }
-        }
-    }
 
 }
